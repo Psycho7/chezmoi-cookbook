@@ -1,0 +1,29 @@
+{
+  "description": "Guard direct edits to chezmoi-managed targets (PreToolUse) and render-test changed templates (PostToolUse).",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/block-managed-edits.sh",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash ${CLAUDE_PLUGIN_ROOT}/hooks/validate-source-changes.sh",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
