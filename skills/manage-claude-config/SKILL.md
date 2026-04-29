@@ -1,13 +1,9 @@
 ---
-name: claude-dotfiles
+name: manage-claude-config
 description: >-
-  Use when syncing user-level Claude Code config (`~/.claude/`,
-  `~/.claude.json`, `~/.claude/settings.json`, `CLAUDE.md`, user-authored
-  agents/commands/skills/hooks) across machines via chezmoi — including which
-  files to track vs. ignore, the `.credentials.json` / macOS Keychain split,
-  `plugins/` churn, or `settings.local.json` overrides. Use alongside
-  `using-chezmoi` (chezmoi mechanics); this skill owns the Claude-specific
-  track/ignore decisions. Not for project-level `.claude/` inside a repo.
+  Syncs user-level Claude Code config across machines via chezmoi. Use when
+  managing `~/.claude/` - track/ignore decisions, credentials split, `plugins/`
+  churn, `settings.local.json`. Not for project-level `.claude/` inside a repo.
 ---
 
 # Syncing ~/.claude/ with chezmoi
@@ -23,7 +19,7 @@ It does **not** cover project-level `.claude/` directories inside a repository. 
 
 > Two files are reliably confused: `~/.claude.json` and `~/.claude/settings.json` are **different files**. The former lives at `$HOME` root and holds OAuth sessions, MCP state, and auto-managed caches (ignore it). The latter lives inside the `.claude/` directory and holds portable user preferences (track it).
 
-For chezmoi mechanics (source vs destination vs target state, `.chezmoiignore` syntax, `chezmoi forget`/`remove`, run-script timing), see the `using-chezmoi` skill. This skill assumes those and focuses on the Claude-specific decisions.
+For chezmoi mechanics (source vs destination vs target state, `.chezmoiignore` syntax, `chezmoi forget`/`remove`, run-script timing), see the `manage-dotfiles` skill. This skill assumes those and focuses on the Claude-specific decisions.
 
 ---
 
@@ -97,7 +93,7 @@ Only add directories that actually contain your own authored content. A fresh in
 
 ## 4. Ready-made `.chezmoiignore` snippet
 
-Add to `.chezmoiignore` at your chezmoi source root. Patterns match **target paths** (as they appear under `$HOME`), not source filenames. See `using-chezmoi` §6 for why.
+Add to `.chezmoiignore` at your chezmoi source root. Patterns match **target paths** (as they appear under `$HOME`), not source filenames. See `manage-dotfiles` §6 for why.
 
 ```
 # ~/.claude/ runtime state
@@ -148,7 +144,7 @@ Add to `.chezmoiignore` at your chezmoi source root. Patterns match **target pat
 ### Starting from scratch
 
 1. Make sure `.chezmoiignore` contains the block from §4 **before** adding anything.
-2. Add portable files explicitly, one path at a time — never `chezmoi add ~/.claude/` (instance of the `--exact --recursive` parent foot-gun in `using-chezmoi` §2):
+2. Add portable files explicitly, one path at a time — never `chezmoi add ~/.claude/` (instance of the `--exact --recursive` parent foot-gun in `manage-dotfiles` §2):
    ```bash
    chezmoi add ~/.claude/CLAUDE.md
    chezmoi add ~/.claude/settings.json
@@ -163,11 +159,11 @@ Add to `.chezmoiignore` at your chezmoi source root. Patterns match **target pat
 
 ### If runtime paths are already tracked
 
-`.chezmoiignore` filters source-tree traversal at apply time. It does not retroactively untrack. Run `chezmoi forget <path>` for each bad entry (keeps the file on disk, removes the source), *then* add the block from §4. See `using-chezmoi` §10 for `forget` vs `remove`.
+`.chezmoiignore` filters source-tree traversal at apply time. It does not retroactively untrack. Run `chezmoi forget <path>` for each bad entry (keeps the file on disk, removes the source), *then* add the block from §4. See `manage-dotfiles` §10 for `forget` vs `remove`.
 
 ### Editing managed files
 
-Once tracked, edit via `chezmoi edit ~/.claude/settings.json`, not the target directly. Direct edits to the target are lost on the next `chezmoi apply`. See `using-chezmoi` §2.
+Once tracked, edit via `chezmoi edit ~/.claude/settings.json`, not the target directly. Direct edits to the target are lost on the next `chezmoi apply`. See `manage-dotfiles` §2.
 
 ---
 

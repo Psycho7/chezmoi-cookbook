@@ -1,14 +1,12 @@
 ---
-name: using-chezmoi
+name: manage-dotfiles
 description: >-
-  Use when working with chezmoi-managed dotfiles: choosing between plain copy,
-  Go template, or modify script; writing managed-block modify scripts;
-  configuring `.chezmoiignore` (target-path semantics); bootstrapping across
-  macOS, Linux, Windows, or CI; distinguishing source / destination / target
-  state; troubleshooting `chezmoi apply` / `chezmoi diff`. Also use when the
-  user edits files under `~/.local/share/chezmoi/` or mentions
-  `chezmoi add/edit/apply/forget/remove`, `.chezmoiignore`, `.chezmoidata/`,
-  `run_once_`, or `modify_` — even without naming chezmoi explicitly.
+  Manages dotfiles via chezmoi. Use when working with chezmoi-managed dotfiles -
+  .chezmoiignore semantics, run_once_/modify_ scripts, or troubleshooting
+  chezmoi apply/diff across macOS, Linux, Windows, CI. Also use when the user
+  edits files under `~/.local/share/chezmoi/` or mentions
+  `chezmoi add/edit/forget/remove` or `.chezmoidata/`, even without naming
+  chezmoi explicitly.
 ---
 
 # Chezmoi Dotfiles Management
@@ -203,7 +201,7 @@ Documents/PowerShell
 # run_once_00_install.ps1  ← should be 00_install.ps1
 ```
 
-> Managing `~/.claude/` (user-level Claude Code config)? See the `claude-dotfiles` skill for the authoritative track/ignore list and the `~/.claude.json` vs `~/.claude/settings.json` gotcha.
+> Managing `~/.claude/` (user-level Claude Code config)? See the `manage-claude-config` skill for the authoritative track/ignore list and the `~/.claude.json` vs `~/.claude/settings.json` gotcha.
 
 ---
 
