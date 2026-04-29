@@ -9,7 +9,7 @@
     {
       "name": "chezmoi-cookbook",
       "description": "Skills, commands, and hooks for managing dotfiles with chezmoi.",
-      "source": ".",
+      "source": "./",
       "category": "productivity",
       "homepage": "https://github.com/Psycho7/chezmoi-cookbook"
     }
