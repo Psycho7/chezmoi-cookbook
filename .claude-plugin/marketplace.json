@@ -1,0 +1,17 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "chezmoi-cookbook",
+  "description": "Claude Code plugin for managing dotfiles with chezmoi.",
+  "owner": {
+    "name": "Chujie Zeng"
+  },
+  "plugins": [
+    {
+      "name": "chezmoi-cookbook",
+      "description": "Skills, commands, and hooks for managing dotfiles with chezmoi.",
+      "source": ".",
+      "category": "productivity",
+      "homepage": "https://github.com/Psycho7/chezmoi-cookbook"
+    }
+  ]
+}
