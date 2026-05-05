@@ -177,9 +177,11 @@ Two different files. `~/.claude.json` is auto-managed state (ignore the whole fi
 
 The `.credentials.json` ignore line is a no-op on macOS. The file doesn't exist there. Keeping the line cross-platform costs nothing and protects Linux/Windows/WSL users. Do not try to manage credentials through chezmoi regardless of platform; secrets handling is out of scope for this plugin.
 
-### `plugins/` today: ignore the whole directory
+### `plugins/` is runtime state — ignore the whole directory
 
-`~/.claude/plugins/` contains marketplace caches (churn) alongside `installed_plugins.json` (conceptually a portable record of which plugins the user has enabled). A future bidirectional-plugin-sync workflow could track `installed_plugins.json` specifically. Until that exists, ignoring the whole `plugins/` directory is the safe default: tracking part of it while the rest churns produces noisy diffs.
+`~/.claude/plugins/` holds marketplace clones, install metadata, and per-plugin data dirs — all populated by Claude Code's plugin sync at startup. Paths embed `/Users/...` which breaks across machines, so tracking any of it produces noisy diffs. Always ignore the whole directory.
+
+Plugin provisioning is driven by `enabledPlugins` and `extraKnownMarketplaces` fields in `settings.json` — syncing that file is sufficient to provision plugins on a fresh machine. For the tracking pattern (modify script, workflow, scope), read `references/plugin-management.md` in this skill's directory.
 
 ### `.local.json` and `.local.md` are a Claude Code convention
 

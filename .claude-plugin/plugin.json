@@ -1,7 +1,7 @@
 {
   "name": "chezmoi-cookbook",
   "description": "Claude Code plugin for managing dotfiles with chezmoi. Skills covering modify scripts, templates, and platform pitfalls, plus hooks that catch edits to managed files.",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "author": { "name": "Chujie Zeng" },
   "repository": "https://github.com/Psycho7/chezmoi-cookbook",
   "license": "MIT",
