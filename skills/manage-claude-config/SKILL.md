@@ -179,9 +179,13 @@ The `.credentials.json` ignore line is a no-op on macOS. The file doesn't exist 
 
 ### `plugins/` is runtime state — ignore the whole directory
 
-`~/.claude/plugins/` holds marketplace clones, install metadata, and per-plugin data dirs — all populated by Claude Code's plugin sync at startup. Paths embed `/Users/...` which breaks across machines, so tracking any of it produces noisy diffs. Always ignore the whole directory.
+`~/.claude/plugins/` holds marketplace clones, install metadata, and per-plugin data dirs — all populated by Claude Code at install time. Paths embed `/Users/...` which breaks across machines, so tracking any of it produces noisy diffs. Always ignore the whole directory.
 
-Plugin provisioning is driven by `enabledPlugins` and `extraKnownMarketplaces` fields in `settings.json` — syncing that file is sufficient to provision plugins on a fresh machine. For the tracking pattern (modify script, workflow, scope), read `references/plugin-management.md` in this skill's directory.
+Do **not** provision personal user-scope plugins by seeding `enabledPlugins` or `extraKnownMarketplaces` in `~/.claude/settings.json`. At user scope on launch, Claude Code writes those keys (as a side effect of `/plugin install`) but does not read them as install directives — pre-seeding them on a fresh machine does nothing, and `modify_dot_claude_settings.json` snippets that inject them via `jq` are equally inert.
+
+(Two adjacent paths exist for completeness: project-scope `.claude/settings.json` is documented to trigger a trust-prompt for install when teammates open the repo, and managed settings expose `forcedPlugins` for non-interactive CI/CD bootstrap. Neither covers personal user-scope dotfiles.)
+
+For personal user-scope dotfiles, the working pattern is a declarative manifest plus a `run_once_after_*` script that drives the `claude plugin` CLI directly. For the full recipe (manifest schema, applier script, gotchas), read `references/plugin-management.md` in this skill's directory. If `~/.claude/settings.json` already contains `enabledPlugins` or `extraKnownMarketplaces` from any previous setup, see the "settings.json hygiene" subsection of that reference for the strip-and-clean path.
 
 ### `.local.json` and `.local.md` are a Claude Code convention
 
