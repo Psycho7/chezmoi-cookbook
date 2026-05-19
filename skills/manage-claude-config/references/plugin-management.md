@@ -76,7 +76,7 @@ Two files in the chezmoi source root.
 
 ### Manifest (data only)
 
-Minimal three-section schema. The bundled `claude-plugins-official` marketplace is always available and does not need to be listed under `marketplaces`.
+Minimal three-section schema. List **every** marketplace your plugins depend on under `marketplaces`, including `anthropics/claude-plugins-official`. Despite the name, it is a regular GitHub-hosted marketplace — not a bundled default — and is not auto-registered on a fresh CLI. Long-lived machines may have it registered from some past code path, which masks the issue locally; CI and freshly bootstrapped machines fail without an explicit entry. `marketplace add` is idempotent, so listing it has no cost on machines where it is already present — only upside on fresh ones.
 
 For each `marketplaces` entry:
 - `source` is the value passed to `claude plugin marketplace add` — a GitHub `owner/repo`, a git URL, or a local path.
@@ -84,12 +84,14 @@ For each `marketplaces` entry:
 
 For each plugin entry under `enabled` / `disabled`:
 - `name` is the plugin id from its hosting marketplace's `marketplace.json`.
-- `marketplace` must match a `name` from the `marketplaces` list above, or `claude-plugins-official` for bundled plugins.
+- `marketplace` must match a `name` from the `marketplaces` list above. Plugins from `anthropics/claude-plugins-official` are not exempt — register that marketplace like any other.
 
 ```yaml
 # home/.chezmoidata/claude_plugins.yaml
 claude_plugins:
   marketplaces:
+    - name: claude-plugins-official     # not bundled — must be listed explicitly
+      source: anthropics/claude-plugins-official
     - name: openai-codex                # value of "name" in the upstream marketplace.json
       source: openai/codex-plugin-cc
     - name: my-monorepo
